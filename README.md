@@ -1,2 +1,1 @@
-# fatihsariyercom
-# fatihsariyercom
+fatihsariyer.com resource codes
