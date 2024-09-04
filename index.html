@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fatih's Terminal</title>
+    <script src="js/jquery.min.js"></script>
+    <style type="text/css">
+        body {
+            background-color: #000;
+        }
+        #console {
+            font-family: courier, monospace;
+            color: #fff;
+            width: auto;
+            margin: auto;
+            font-size: 14px;
+        }
+        a {
+            color: #0bc;
+            text-decoration: none;
+        }
+        #a {
+            color: #0f0;
+        }
+        #c {
+            color: #0bc;
+        }
+        #b {
+            color: #ff0096;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+        var Typer = {
+            text: `
+<h3><span id="a">Fatihsa@localhost</span>:<span id="b">~</span><span id="c">$</span> cat fatihsa1231.txt </h3>
+<h3>Hi, I'm Fatih Sariyer.<!-- laglaglaglaglaglaglaglaglaglaglaglag -->
+<p> DevOps Engineer, Full Stack .Net and Php Developer, System and Network Administrator and I'm too busy and lazy to create this portfolio website.  Check my linkedin account instead <!-- slightdelayhere--><!-- longlongcomment --></p></h3>
+
+<h3><span id="a">Fatihsa@localhost</span>:<span id="b">~</span><span id="c">$</span> more contactme.txt  </h3><!-- slightdelayhere--><!-- longlongcomment --> 
+
+more: contactme.txt: Permission denied<br>
+<h3><span id="a">Fatihsa@localhost</span>:<span id="b">~</span><span id="c">$</span> sudo su -  </h3><!-- slightdelayhere--><!-- longlongcomment --> 
+Password for root:<!-- slightdelayhere--> ******* <br>
+<h3><span id="a"><span style="color:red;">root@localhost</span></span>:<span id="b">~</span><span id="c">$</span> more contactme.txt </h3><!-- slightdelayhere-->
+<h3>Email addresses : <a href="mailto:fatihsariyerr@gmail.com">fatihsariyerr@gmail.com</a>
+
+Phone Number : <a href="tel: +905521736676"> +90-5521736676 </a>
+
+Linked-In : <a href="https://www.linkedin.com/in/fatihsariyer/" target="_blank"> FatihSariyer</a> <br/> </h3>
+
+<h3><span id="a"><span style="color:red;">root@localhost</span></span>:<span id="b">~</span><span id="c">$</span> exit </h3>
+logout
+
+
+            `,
+            accessCountimer: null,
+            index: 0,
+            speed: 2,
+            file: "",
+            accessCount: 0,
+            deniedCount: 0,
+            init: function() {
+                Typer.accessCountimer = setInterval(function() {
+                    Typer.updLstChr();
+                }, 500);
+            },
+            content: function() {
+                return $("#console").html();
+            },
+            write: function(str) {
+                $("#console").append(str);
+                return false;
+            },
+            makeAccess: function() {
+                Typer.hidepop();
+                Typer.accessCount = 0;
+                var ddiv = $("<div id='gran'>").html("");
+                ddiv.addClass("accessGranted");
+                ddiv.html("<h1>ACCESS GRANTED</h1>");
+                $(document.body).prepend(ddiv);
+                return false;
+            },
+            makeDenied: function() {
+                Typer.hidepop();
+                Typer.deniedCount = 0;
+                var ddiv = $("<div id='deni'>").html("");
+                ddiv.addClass("accessDenied");
+                ddiv.html("<h1>ACCESS DENIED</h1>");
+                $(document.body).prepend(ddiv);
+                return false;
+            },
+            hidepop: function() {
+                $("#deni").remove();
+                $("#gran").remove();
+            },
+            addText: function(key) {
+                if (key.keyCode == 18) {
+                    Typer.accessCount++;
+                    if (Typer.accessCount >= 3) {
+                        Typer.makeAccess();
+                    }
+                } else if (key.keyCode == 20) {
+                    Typer.deniedCount++;
+                    if (Typer.deniedCount >= 3) {
+                        Typer.makeDenied();
+                    }
+                } else if (key.keyCode == 27) {
+                    Typer.hidepop();
+                } else if (Typer.text) {
+                    var cont = Typer.content();
+                    if (cont.substring(cont.length - 1, cont.length) == "|")
+                        $("#console").html($("#console").html().substring(0, cont.length - 1));
+                    if (key.keyCode != 8) {
+                        Typer.index += Typer.speed;
+                    } else {
+                        if (Typer.index > 0)
+                            Typer.index -= Typer.speed;
+                    }
+                    var text = Typer.text.substring(0, Typer.index);
+                    var rtn = new RegExp("\n", "g");
+                    $("#console").html(text.replace(rtn, "<br/>"));
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
+                if (key.preventDefault && key.keyCode != 122) {
+                    key.preventDefault();
+                }
+                if (key.keyCode != 122) {
+                    key.returnValue = false;
+                }
+            },
+            updLstChr: function() {
+                var cont = this.content();
+                if (cont.substring(cont.length - 1, cont.length) == "|")
+                    $("#console").html($("#console").html().substring(0, cont.length - 1));
+                else
+                    this.write("|");
+            }
+        };
+
+        Typer.init();
+
+        var timer = setInterval(function() {
+            t();
+        }, 40);
+
+        function t() {
+            Typer.addText({ "keyCode": 123748 });
+            if (Typer.index > Typer.text.length) {
+                clearInterval(timer);
+            }
+        }
+    </script>
+    <div id="console"></div>
+</body>
+</html>
