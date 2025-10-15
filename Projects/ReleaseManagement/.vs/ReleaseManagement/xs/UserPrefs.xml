@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{008D3A15-4A3B-4501-AB77-3301D2744828}|http">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.ReleaseManagement PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReleaseManagement/Controllers/VersionUpdateController.cs">
+    <Files>
+      <File FileName="ReleaseManagement/appsettings.json" />
+      <File FileName="ReleaseManagement/Program.cs" />
+      <File FileName="ReleaseManagement/Controllers/VersionUpdateController.cs" Line="706" Column="36" />
+      <File FileName="ReleaseManagement/Controllers/EmptyClass" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ReleaseManagement" expanded="True">
+            <Node name="ReleaseManagement" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="VersionUpdateController.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

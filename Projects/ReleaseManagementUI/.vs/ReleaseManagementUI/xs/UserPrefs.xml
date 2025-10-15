@@ -1,0 +1,39 @@
+﻿<Properties StartupConfiguration="{BBA83901-EE7A-4E8C-AABB-A1B02BF7C753}|http">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.ReleaseManagementUI PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ReleaseManagementUI/Pages/CurrentRelease.cshtml.cs">
+    <Files>
+      <File FileName="ReleaseManagementUI/Pages/Index.cshtml" />
+      <File FileName="ReleaseManagementUI/Pages/Index.cshtml.cs" />
+      <File FileName="ReleaseManagementUI/wwwroot/html/tables-basic.html" />
+      <File FileName="ReleaseManagementUI/Pages/CreateRelease.cshtml.cs" Line="299" Column="18" />
+      <File FileName="ReleaseManagementUI/Pages/CreateRelease.cshtml" />
+      <File FileName="ReleaseManagementUI/Pages/CurrentRelease.cshtml.cs" Line="186" Column="94" />
+      <File FileName="ReleaseManagementUI/Pages/CurrentRelease.cshtml" Line="122" Column="53" />
+      <File FileName="ReleaseManagementUI/Program.cs" />
+      <File FileName="ReleaseManagementUI/Properties/launchSettings.json" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ReleaseManagementUI">
+            <Node name="ReleaseManagementUI" expanded="True">
+              <Node name="Pages" expanded="True">
+                <Node name="CreateRelease.cshtml" expanded="True" />
+                <Node name="CurrentRelease.cshtml" expanded="True">
+                  <Node name="CurrentRelease.cshtml.cs" selected="True" />
+                </Node>
+                <Node name="Index.cshtml" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+</Properties>
