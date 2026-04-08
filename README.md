@@ -1,0 +1,1 @@
+fatihsariyer.com resource codes
