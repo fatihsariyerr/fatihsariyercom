@@ -13,6 +13,8 @@
             width: auto;
             margin: auto;
             font-size: 14px;
+            padding: 0 10px;
+            line-height: 1.4;
         }
         a {
             color: #0bc;
@@ -27,29 +29,158 @@
         #b {
             color: #ff0096;
         }
+        #motd {
+            font-family: courier, monospace;
+            color: #fff;
+            font-size: 14px;
+            white-space: pre;
+            padding: 10px;
+            line-height: 1.4;
+        }
+        #motd .motd-yellow {
+            color: #ff0;
+        }
+        #motd .motd-green {
+            color: #0f0;
+        }
+        #motd .motd-red {
+            color: #f55;
+        }
+        #motd .motd-cyan {
+            color: #0bc;
+        }
+        #motd a {
+            color: #0bc;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
+    <div id="motd"></div>
+    <script type="text/javascript">
+        function fmtIstanbul(d) {
+            var tz = 'Europe/Istanbul';
+            var wday = d.toLocaleString('en-US', { timeZone: tz, weekday: 'short' });
+            var mon = d.toLocaleString('en-US', { timeZone: tz, month: 'short' });
+            var dd = d.toLocaleString('en-US', { timeZone: tz, day: 'numeric' });
+            var yr = d.toLocaleString('en-US', { timeZone: tz, year: 'numeric' });
+            var hh = d.toLocaleString('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+            return wday + ' ' + mon + '  ' + dd + ' ' + hh + ' UTC+3 ' + yr;
+        }
+
+        var pageLoadTimeStr = fmtIstanbul(new Date());
+
+        function generateMOTD(realIp) {
+            var load = (Math.random() * 0.4 + 0.01).toFixed(2);
+            var procs = Math.floor(Math.random() * 100 + 250);
+            var diskPct = (Math.random() * 15 + 3).toFixed(1);
+            var memPct = Math.floor(Math.random() * 10 + 3);
+            var swapPct = 0;
+            var users = 1;
+            var ip = realIp;
+            var updates = Math.floor(Math.random() * 5);
+
+            function pad(str, len) {
+                str = String(str);
+                while (str.length < len) str += ' ';
+                return str;
+            }
+
+            var motd = '';
+            motd += '<span class="motd-green">Welcome to Ubuntu 24.04.2 LTS</span> (GNU/Linux 6.8.0-53-generic x86_64)\n';
+            motd += '\n';
+            motd += ' * Documentation:  <a href="https://help.ubuntu.com" target="_blank">https://help.ubuntu.com</a>\n';
+            motd += ' * Management:     <a href="https://landscape.canonical.com" target="_blank">https://landscape.canonical.com</a>\n';
+            motd += ' * Support:        <a href="https://ubuntu.com/pro" target="_blank">https://ubuntu.com/pro</a>\n';
+            motd += '\n';
+            motd += ' System information as of ' + pageLoadTimeStr + '\n';
+            motd += '\n';
+            motd += '  System load:  ' + pad(load, 19) + 'Processes:               ' + procs + '\n';
+            motd += '  Usage of /:   ' + pad(diskPct + '% of 193.83GB', 19) + 'Users logged in:         ' + users + '\n';
+            motd += '  Memory usage: ' + pad(memPct + '%', 19) + 'IPv4 address for ens192: ' + ip + '\n';
+            motd += '  Swap usage:   ' + pad(swapPct + '%', 19) + '\n';
+            motd += '\n';
+            motd += '\n';
+            motd += 'Expanded Security Maintenance for Applications is not enabled.\n';
+            motd += '\n';
+            motd += '<span class="motd-yellow">' + updates + ' updates</span> can be applied immediately.\n';
+            motd += '\n';
+            motd += 'Enable ESM Apps to receive additional future security updates.\n';
+            motd += 'See <a href="https://ubuntu.com/esm" target="_blank">https://ubuntu.com/esm</a> or run: <span class="motd-cyan">sudo pro status</span>\n';
+            motd += '\n';
+            motd += '\n';
+            motd += 'The list of available updates is more than a week old.\n';
+            motd += 'To check for new updates run: <span class="motd-cyan">sudo apt update</span>\n';
+            motd += '\n';
+            motd += 'Last login: ' + pageLoadTimeStr + ' from ' + ip + '\n';
+            motd += '\n';
+
+            return motd;
+        }
+
+        function startMOTD(realIp) {
+            var motdText = generateMOTD(realIp);
+            var motdEl = document.getElementById('motd');
+            var motdIndex = 0;
+            var motdSpeed = 3;
+            var buffer = '';
+            var motdTimer = setInterval(function() {
+                for (var i = 0; i < motdSpeed && motdIndex < motdText.length; i++) {
+                    if (motdText[motdIndex] === '<') {
+                        var closeIdx = motdText.indexOf('>', motdIndex);
+                        if (closeIdx !== -1) {
+                            buffer += motdText.substring(motdIndex, closeIdx + 1);
+                            motdIndex = closeIdx + 1;
+                        } else {
+                            buffer += motdText[motdIndex];
+                            motdIndex++;
+                        }
+                    } else {
+                        buffer += motdText[motdIndex];
+                        motdIndex++;
+                    }
+                }
+                motdEl.innerHTML = buffer;
+                if (motdIndex >= motdText.length) {
+                    clearInterval(motdTimer);
+                    setTimeout(function() {
+                        Typer.init();
+                        var timer = setInterval(function() {
+                            Typer.addText({ "keyCode": 123748 });
+                            if (Typer.index > Typer.text.length) {
+                                clearInterval(timer);
+                            }
+                        }, 40);
+                    }, 500);
+                }
+            }, 10);
+        }
+
+        fetch('https://api.ipify.org?format=json')
+            .then(function(r) { return r.json(); })
+            .then(function(data) { startMOTD(data.ip); })
+            .catch(function() { startMOTD('127.0.0.1'); });
+    </script>
     <script type="text/javascript">
         var Typer = {
             text: `
-<h3><span id="a">Fatihsa@localhost</span>:<span id="b">~</span><span id="c">$</span> cat fatihsainfo.md </h3>
-<h3>Hi, I'm Fatih Sariyer.<!-- laglaglaglaglaglaglaglaglaglaglaglag -->
-<p> DevOps Supervisor, Full Stack Developer and I'm too busy and lazy to create this portfolio website.  Check my linkedin account instead <!-- slightdelayhere--><!-- longlongcomment --></p></h3>
+<span id="a">Fatihsa@localhost</span>:<span id="b">~</span><span id="c">$</span> cat aboutme.md <br>
+Hi, I'm Fatih Sariyer.<!-- laglaglaglaglaglaglaglaglaglaglaglag -->
+<br> DevOps Supervisor, Full Stack Developer and I'm too busy and lazy to create this portfolio website.  Check my linkedin account instead <!-- slightdelayhere--><!-- longlongcomment --><br>
 
-<h3><span id="a">Fatihsa@localhost</span>:<span id="b">~</span><span id="c">$</span> more contactme.md  </h3><!-- slightdelayhere--><!-- longlongcomment --> 
+<span id="a">Fatihsa@localhost</span>:<span id="b">~</span><span id="c">$</span> more contactme.md <!-- slightdelayhere--><!-- longlongcomment --> <br>
 
 more: contactme.md: Permission denied<br>
-<h3><span id="a">Fatihsa@localhost</span>:<span id="b">~</span><span id="c">$</span> sudo su -  </h3><!-- slightdelayhere--><!-- longlongcomment --> 
+<span id="a">Fatihsa@localhost</span>:<span id="b">~</span><span id="c">$</span> sudo su - <!-- slightdelayhere--><!-- longlongcomment --> <br>
 Password for root:<!-- slightdelayhere--> ******* <br>
-<h3><span id="a"><span style="color:red;">root@localhost</span></span>:<span id="b">~</span><span id="c">$</span> more contactme.md </h3><!-- slightdelayhere-->
-<h3>Email addresses : <a href="mailto:fatihsariyerr@gmail.com">fatihsariyerr@gmail.com</a>
+<span id="a"><span style="color:red;">root@localhost</span></span>:<span id="b">~</span><span id="c">#</span> more contactme.md <!-- slightdelayhere--><br>
+Linked-In : <a href="https://www.linkedin.com/in/fatihsariyer/" target="_blank"> FatihSariyer</a><br>
 
-Phone Number : <a href="tel: +905521736676"> +90-5521736676 </a>
+Phone Number : <a href="tel: +905521736676"> +90-5521736676 </a><br>
 
-Linked-In : <a href="https://www.linkedin.com/in/fatihsariyer/" target="_blank"> FatihSariyer</a> <br/> </h3>
+Email addresses : <a href="mailto:fatihsariyerr@gmail.com">fatihsariyerr@gmail.com</a><br>
 
-<h3><span id="a"><span style="color:red;">root@localhost</span></span>:<span id="b">~</span><span id="c">$</span> exit </h3>
+<span id="a"><span style="color:red;">root@localhost</span></span>:<span id="b">~</span><span id="c">#</span> exit <br>
 logout
 
 
@@ -137,19 +268,6 @@ logout
                     this.write("|");
             }
         };
-
-        Typer.init();
-
-        var timer = setInterval(function() {
-            t();
-        }, 40);
-
-        function t() {
-            Typer.addText({ "keyCode": 123748 });
-            if (Typer.index > Typer.text.length) {
-                clearInterval(timer);
-            }
-        }
     </script>
     <div id="console"></div>
 </body>
